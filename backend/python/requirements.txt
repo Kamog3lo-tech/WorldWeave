@@ -1,0 +1,4 @@
+fastapi==0.141.1
+uvicorn==0.53.0
+groq==1.7.0
+instructor==1.17.0
