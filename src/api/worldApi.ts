@@ -45,8 +45,10 @@ export type JavaCommandResult = {
   updatedWorld: JavaWorldState
 }
 
-const API_BASE =
-  "http://localhost:8080/api"
+const JAVA_API_URL =
+  import.meta.env.VITE_JAVA_API_URL || "http://localhost:8080"
+
+const API_BASE = `${JAVA_API_URL}/api`
 
 // A genuinely stalled connection (not a fast error — Java simply
 // never responding) would otherwise leave a fetch() pending forever.

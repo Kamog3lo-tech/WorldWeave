@@ -24,8 +24,11 @@ export async function askPythonDirector(
   world: WorldState
 ): Promise<PythonDirectorDecision> {
 
-  const response = await fetch(
-    "http://127.0.0.1:8000/director/decide",
+  const PYTHON_DIRECTOR_URL =
+  import.meta.env.VITE_DIRECTOR_API_URL || "http://127.0.0.1:8000"
+
+const response = await fetch(
+  `${PYTHON_DIRECTOR_URL}/director/decide`,
     {
       method: "POST",
       headers: {
