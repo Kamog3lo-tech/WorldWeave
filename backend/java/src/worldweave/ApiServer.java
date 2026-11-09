@@ -20,15 +20,18 @@ public ApiServer(World world) {
 }
 
 public void start() throws IOException {
-    server = HttpServer.create(new InetSocketAddress(8080), 0);
+int port = Integer.parseInt(
+    System.getenv().getOrDefault("PORT", "8080")
+);
 
+server = HttpServer.create(new InetSocketAddress(port), 0);
     server.createContext("/api/world", this::handleWorld);
     server.createContext("/api/command", this::handleCommand);
 
     server.setExecutor(null);
     server.start();
 
-    System.out.println("API server running on port 8080");
+    System.out.println("API server running on port " + port);
     System.out.println("  GET  /api/world");
     System.out.println("  POST /api/command");
 }
@@ -36,10 +39,15 @@ public void start() throws IOException {
 // ==================== CORS helper ====================
 
 private void addCorsHeaders(HttpExchange exchange) {
-    exchange.getResponseHeaders().set(
-        "Access-Control-Allow-Origin",
-        "http://localhost:5173"
-    );
+ String allowedOrigin = System.getenv().getOrDefault(
+    "FRONTEND_ORIGIN",
+    "http://localhost:5173"
+);
+
+exchange.getResponseHeaders().set(
+    "Access-Control-Allow-Origin",
+    allowedOrigin
+);
 
     exchange.getResponseHeaders().set(
         "Access-Control-Allow-Methods",
